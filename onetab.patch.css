@@ -1,0 +1,2 @@
+/* OneTab 不卡补丁 —— 屏幕外条目跳过布局与命中测试 */
+.tab { content-visibility: auto; contain-intrinsic-size: auto 26px; }
