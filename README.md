@@ -1,13 +1,18 @@
 # OneTab 不卡补丁（OneTab Performance Patch / 「魔改版」）
 
-OneTab 在保存了几千个标签页后，打开和滚动列表会明显掉帧。这是一个**已验证、一行 CSS 就能把命中测试耗时降低 44%** 的补丁配方库。
+OneTab 在保存了几千个标签页后，**点击条目恢复到浏览器时，整个页面会卡顿十几秒动不了，滚动也会明显掉帧**。这是一个**已验证、一行 CSS 就能极大缓解**的补丁配方库。
 
 **本项目不含 OneTab 的任何代码。** OneTab 是闭源商业扩展（版权归其开发者所有）。这里发布的全部是我们自己的原创内容：补丁、构建脚本、数据迁移工具和诊断报告。你按下面步骤从商店版自己组装出「魔改版」，效果如下：
 
-```
-在 4396 条收藏（41555 个布局对象）的数据集上滚动：
-  干预前  HitTest（鼠标命中测试）单次平均 12.25 ms  →  一帧 6.9 ms（144Hz），一次掉 2~3 帧
-  干预后  6.86 ms（-44%）  ← 仅靠追加这一行 CSS，不碰任何 JS
+在 4396 条收藏的数据集上：
+| 场景 | 原生版 | 补丁后 |
+|---|---|---|
+| **点击恢复标签页** | 卡顿十几秒，页面完全不响应 | 秒开无感觉，几乎不卡 |
+| 鼠标滚动命中测试 | HitTest p50 12.25 ms | 6.86 ms（-44%），144Hz 屏不掉帧 |
+
+（只需要追加这一行 CSS，不碰任何 JS 代码：）
+```css
+.tab { content-visibility: auto; contain-intrinsic-size: auto 26px; }
 ```
 
 完整证据链（真实 trace 分析、对照实验、排除项）见 [docs/findings.md](docs/findings.md)。
@@ -81,10 +86,10 @@ MIT，见 [LICENSE](LICENSE)。OneTab 商标与代码版权归其开发者所有
 
 ## English TL;DR
 
-OneTab renders every saved tab into the DOM upfront (no virtualization); with thousands of items, mouse hit-testing becomes the bottleneck (p50 ≈ 13 ms at 4,396 items, on a 144 Hz display one frame is 6.9 ms). One CSS rule fixes most of it:
+OneTab renders every saved tab into the DOM upfront (no virtualization). With thousands of items, **clicking a tab to restore it freezes the whole page for ~10+ seconds**, and scrolling/hovering also drops frames (mouse hit-testing: p50 ≈ 13 ms at 4,396 items vs a 6.9 ms frame budget on 144 Hz). One CSS rule fixes most of it:
 
 ```css
 .tab { content-visibility: auto; contain-intrinsic-size: auto 26px; }
 ```
 
-Hit-test cost drops from 12.25 ms → 6.86 ms (−44%), no JS changes. Because browsers verify store-extension file integrity, you can't just edit the installed copy (it gets flagged "damaged"); instead copy the extension folder, patch the copy (`build_modded.ps1` does this automatically: copy + strip `key`/`update_url` + rename + apply patch), and load it via `chrome://extensions` → Developer mode → Load unpacked. The patch & tools are MIT; OneTab's own code and branding belong to its developers.
+On our 4,396-item dataset: **restoring a tab went from ~10+ s of frozen UI to near-instant**; hit-test cost drops 12.25 ms → 6.86 ms (−44%), no JS changes. Because browsers verify store-extension file integrity, you can't just edit the installed copy (it gets flagged "damaged"); instead copy the extension folder, patch the copy (`build_modded.ps1` does this automatically: copy + strip `key`/`update_url` + rename + apply patch), and load it via `chrome://extensions` → Developer mode → Load unpacked. The patch & tools are MIT; OneTab's own code and branding belong to its developers.
