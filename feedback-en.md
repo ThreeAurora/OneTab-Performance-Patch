@@ -25,9 +25,9 @@ With a few thousand saved tabs, OneTab becomes painful to use on my (fast) machi
 
 Result on my 4,396-item data: **restoring a tab went from ~10+ s of frozen UI to near-instant; scrolling/over hit-testing roughly halved** (12.25 ms → 6.86 ms per hit test by sampling, but honestly the big win is the restore flow — it went from actively painful to not noticeable). Search, drag & drop reordering, grouping all still work.
 
-Could you try the same for the official build? Even better long-term would be virtualized rendering (or `content-visibility` in `onetab.css`) and lazy-rendering / paginating the Trash section.
+If this fix looks useful to you, you're welcome to apply it in the official build as well — it's only one CSS rule, so hopefully it's easy to test. And if it helps, some longer-term options would be virtualized rendering (or simply shipping `content-visibility` in `onetab.css`) and lazy-rendering or paginating the Trash section.
 
-Happy to provide the full trace. Really hope this helps — OneTab is one of my most-used extensions.
+I'd be happy to share the full trace or any further details if that would help. Thank you for maintaining OneTab — it's one of my most-used extensions.
 
 ---
 
