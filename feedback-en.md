@@ -29,7 +29,7 @@ First of all, thank you for maintaining OneTab — I use it every day with rough
 ```
 Average hit-test cost drops from **12.25 ms → 6.86 ms (−44%)** on the same 4,396-item dataset (`document.elementFromPoint` × 60 sampling). I have been running it for days with no functional regressions — drag & drop reordering, grouping, search, restore all behave normally. (`contain-intrinsic-size` keeps the scrollbar geometry and drop targets accurate even though offscreen items are skipped.)
 
-See the full experiment table (including a `contain: layout paint style` variant that was *harmful*, 12.25 → 15.09 ms) and the reproduction steps here: https://github.com/<your-username>/OneTab-Performance-Patch/blob/main/docs/findings.md
+See the full experiment table (including a `contain: layout paint style` variant that was *harmful*, 12.25 → 15.09 ms) and the reproduction steps here: https://github.com/ThreeAurora/OneTab-Performance-Patch/blob/main/docs/findings.md
 
 **Suggestions for the official implementation (in order of preference)**
 1. Virtualized rendering (or chunked/interleaved rendering) for large lists — the real fix; it also bounds memory usage.
