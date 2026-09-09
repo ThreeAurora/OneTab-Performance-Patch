@@ -8,6 +8,8 @@ Paste this into the form at https://www.one-tab.com/feedback
 
 **Hi OneTab team,**
 
+*This message was written with the help of machine translation, so the wording may be slightly off.*
+
 With a few thousand saved tabs, OneTab becomes painful to use on my (fast) machine:
 
 1. **Clicking a tab to restore it freezes the whole page for ~10+ seconds.**
@@ -26,8 +28,6 @@ Result on my 4,396-item data: **restoring a tab went from ~10+ s of frozen UI to
 Could you try the same for the official build? Even better long-term would be virtualized rendering (or `content-visibility` in `onetab.css`) and lazy-rendering / paginating the Trash section.
 
 Happy to provide the full trace. Really hope this helps — OneTab is one of my most-used extensions.
-
-*P.S. This report was written with the help of machine translation, so the wording may be slightly off. The essentials are: huge freeze when restoring a tab from a big list, root cause is full rendering of all items, and a one-line CSS fix works. I'm happy to clarify anything.*
 
 ---
 
