@@ -4,28 +4,28 @@ Paste this into the form at https://www.one-tab.com/feedback
 
 ---
 
-**Category:** Bug report / performance
+Category: Bug report / performance
 
-**Hi OneTab team,**
+Hi OneTab team,
 
-*This message was written with the help of machine translation, so the wording may be slightly off.*
+This message was written with the help of machine translation, so the wording may be slightly off.
 
 With a few thousand saved tabs, OneTab becomes painful to use on my (fast) machine:
 
-1. **Clicking a tab to restore it freezes the whole page for ~10+ seconds.**
+1. Clicking a tab to restore it freezes the whole page for ~10+ seconds.
 2. Scrolling / moving the mouse over the list also drops frames (144 Hz display).
 
-**Root cause I found:** the OneTab page renders **every** item into the DOM up front (no virtualization). With 4,396 items that's ~42,000 nodes / 41,555 layout objects, so basically every interaction that touches the list forces a full re-layout.
+Root cause I found: the OneTab page renders every item into the DOM up front (no virtualization). With 4,396 items that's ~42,000 nodes / 41,555 layout objects, so basically every interaction that touches the list forces a full re-layout.
 
-**A one-line CSS fix works very well for me** (no JS changes, just appended to `onetab.css`):
+A one-line CSS fix works very well for me (no JS changes, just appended to onetab.css):
 
 ```css
 .tab { content-visibility: auto; contain-intrinsic-size: auto 26px; }
 ```
 
-Result on my 4,396-item data: **restoring a tab went from ~10+ s of frozen UI to near-instant; scrolling/over hit-testing roughly halved** (12.25 ms → 6.86 ms per hit test by sampling, but honestly the big win is the restore flow — it went from actively painful to not noticeable). Search, drag & drop reordering, grouping all still work.
+Result on my 4,396-item data: restoring a tab went from ~10+ s of frozen UI to near-instant; scrolling/over hit-testing roughly halved (12.25 ms → 6.86 ms per hit test by sampling, but honestly the big win is the restore flow — it went from actively painful to not noticeable). Search, drag & drop reordering, grouping all still work.
 
-If this fix looks useful to you, you're welcome to apply it in the official build as well — it's only one CSS rule, so hopefully it's easy to test. And if it helps, some longer-term options would be virtualized rendering (or simply shipping `content-visibility` in `onetab.css`) and lazy-rendering or paginating the Trash section.
+If this fix looks useful to you, you're welcome to apply it in the official build as well — it's only one CSS rule, so hopefully it's easy to test. And if it helps, some longer-term options would be virtualized rendering (or simply shipping content-visibility in onetab.css) and lazy-rendering or paginating the Trash section.
 
 I'd be happy to share the full trace or any further details if that would help. Thank you for maintaining OneTab — it's one of my most-used extensions.
 
